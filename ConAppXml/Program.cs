@@ -10,7 +10,17 @@ namespace ConAppXml
     {
         static void Main(string[] args)
         {
-            Run();
+            //Run();
+            RunWithNotes();
+        }
+
+        private static void RunWithNotes()
+        {
+            Helper hp = new Helper();
+            var d = hp.GetXsdNote();
+
+            var res = hp.MappToXsdNote(d);
+            hp.DoXmlWork(res);
         }
 
         public static void Run() 

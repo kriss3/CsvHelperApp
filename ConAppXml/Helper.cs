@@ -1,4 +1,5 @@
 ﻿using ConAppXml.XmlModels;
+using Omu.ValueInjecter;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,14 +38,13 @@ namespace ConAppXml
             return rs;
         }
 
-
-        public void DoXmlWork(SnapShot sp) 
+        public void DoXmlWork<T>(T sp) 
         {
             try
             {
                 using (StreamWriter sw = new StreamWriter("SnapShot.xml"))
                 {
-                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(SnapShot));
+                    XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
                     xmlSerializer.Serialize(sw, sp);
                 }
             }
@@ -52,6 +52,23 @@ namespace ConAppXml
             {
                 WriteLine($"Something went wrong with serialization: {ex.Message}");
             }
+        }
+
+        public notesNote GetXsdNote()
+        {
+            return new notesNote()
+            {
+                to = "Marry", from = "Hill", heading = "This my heading", body = "This is my body"
+            };
+        }
+
+        public Note MappToXsdNote(notesNote myXsdNote) 
+        {
+            var res = new Note();
+
+            res.InjectFrom(myXsdNote);
+
+            return res;
         }
     }
 }
